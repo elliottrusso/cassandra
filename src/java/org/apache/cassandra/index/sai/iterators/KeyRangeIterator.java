@@ -120,6 +120,11 @@ public abstract class KeyRangeIterator extends AbstractGuavaIterator<PrimaryKey>
         return hasNext;
     }
 
+    public PrimaryKey nextOrNull()
+    {
+        return hasNext() ? next() : null;
+    }
+
     public static KeyRangeIterator empty()
     {
         return EmptyRangeIterator.instance;

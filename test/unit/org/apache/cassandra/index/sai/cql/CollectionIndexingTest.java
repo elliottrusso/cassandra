@@ -44,6 +44,13 @@ public class CollectionIndexingTest extends SAITester
     {
         createPopulatedMap("CREATE CUSTOM INDEX ON %s(value) USING 'StorageAttachedIndex'");
         assertEquals(2, execute("SELECT * FROM %s WHERE value CONTAINS 'v1'").size());
+
+        assertEmpty(execute("SELECT pk FROM %s WHERE value NOT CONTAINS 'v1'"));
+
+        assertRowsIgnoringOrder(execute("SELECT pk FROM %s WHERE value NOT CONTAINS 'v2'"),
+                                row(2));
+        assertRowsIgnoringOrder(execute("SELECT pk FROM %s WHERE value NOT CONTAINS 'v3'"),
+                                row(1));
     }
 
     @Test

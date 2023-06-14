@@ -277,8 +277,12 @@ public class IndexContext
 
         if (isNonFrozenCollection())
         {
-            if (indexType == IndexTarget.Type.KEYS) return operator == Expression.IndexOperator.CONTAINS_KEY;
-            if (indexType == IndexTarget.Type.VALUES) return operator == Expression.IndexOperator.CONTAINS_VALUE;
+            if (indexType == IndexTarget.Type.KEYS)
+                return operator == Expression.IndexOperator.CONTAINS_KEY
+                    || operator == Expression.IndexOperator.NOT_CONTAINS_KEY;
+            if (indexType == IndexTarget.Type.VALUES)
+                return operator == Expression.IndexOperator.CONTAINS_VALUE
+                    || operator == Expression.IndexOperator.NOT_CONTAINS_VALUE;
             return indexType == IndexTarget.Type.KEYS_AND_VALUES && operator == Expression.IndexOperator.EQ;
         }
 
