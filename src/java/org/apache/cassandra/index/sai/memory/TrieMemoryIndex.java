@@ -153,14 +153,21 @@ public class TrieMemoryIndex
         if (logger.isTraceEnabled())
             logger.trace("Searching memtable index on expression '{}'...", expression);
 
+        //Not 100% sure if the LIKE / NOT LIKE cases are returning the correct result
         switch (expression.getOp())
         {
             case EQ:
             case CONTAINS_KEY:
             case CONTAINS_VALUE:
-            case NOT_LIKE_PREFIX:
-            case LIKE_PREFIX:
+            case LIKE_MATCHES:
+            case NOT_LIKE_MATCHES:
                 return exactMatch(expression, keyRange);
+            case LIKE_PREFIX:
+            case LIKE_SUFFIX:
+            case LIKE_CONTAINS:
+            case NOT_LIKE_PREFIX:
+            case NOT_LIKE_SUFFIX:
+            case NOT_LIKE_CONTAINS:
             case RANGE:
                 return rangeMatch(expression, keyRange);
             default:
